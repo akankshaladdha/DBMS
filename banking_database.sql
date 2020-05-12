@@ -77,7 +77,7 @@ where exists (
 select BC.customername from Bank_Customer BC
 where not exists(
 					select branch_name from Branch branch_city = 'Delhi'
-                    except
+                    NOT IN
                     select BA.branch_name from Depositor D , Bank_account BA
                     where D.acc_no = BA.acc_no AND BC.customername = D.customername);
                     
