@@ -43,8 +43,10 @@ create table faculty(
  
  select distinct sname from student where snum NOT IN (select distinct snum from enrolled);
  
-DROP database student_faculty;
-
  select S.age, S.lvl from student S group by S.age, S.lvl having S.lvl in (select S1.lvl from student S1 where S1.age = S.age group by S1.lvl, S1.age having count(*) >= all (select count(*) from student S2 where s1.age = S2.age group by S2.lvl, S2.age));
+ 
+ select distinct F.fname from faculty F 
+ where not exists (select C.room from class C  where C1.room NOT IN
+ (select C1.room from class C1 where C1.fid = F.id));
  
  
