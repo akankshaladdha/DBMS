@@ -1,17 +1,20 @@
   
 create database SupplierDB;
 use SupplierDB;
+
 create table Supplier(
 sid int,
 sname varchar(30),
 city varchar(30),
 primary key(sid));
 desc Supplier;
+
 create table Parts(
 pid int,
 pname varchar(30),
 color varchar(30),
 primary key(pid));
+
 create table Catalog(
 sid int,
 pid int,
@@ -19,6 +22,7 @@ cost int,
 primary key(sid,pid),
 foreign key (sid) references Supplier(sid),
 foreign key (pid) references Parts(pid));
+
 insert into Supplier values(10001,'Acme Widget','Bangalore'),(10002,'Johns','Kolkata'),(10003,'Vimal','Mumbai'),(10004,'Reliance','Delhi');
 insert into Parts values(20001,'Book','Red'),(20002,'Pen','Red'),(20003,'pencil','Green'),(20004,'Mobile','Green'),(20005,'Charger','Black');
 insert into Catalog values(10001,20001,10),(10001,20002,10),(10001,20003,30),(10001,20004,10),(10001,20005,10),(10002,20001,10),(10002,20002,20),(10003,20003,30),(10004,20003,40);
@@ -33,19 +37,12 @@ where Parts.pid=Catalog.pid;
 select sname 
 from Supplier
 where not exists( select pid from Parts
-					NOT IN
+			where pid not in(
                     select distinct pid 
                     from Catalog
-                    where Catalog.sid=Supplier.sid);
+                    where Catalog.sid=Supplier.sid));
 
-select sname 
-from Supplier
-where not exists( select pid from Parts where color='Red'
-					NOT IN
-                    select distinct Catalog.pid 
-                    from Catalog , Parts
-                    where Parts.pid=Catalog.pid and Parts.color='Red' and  Catalog.sid=Supplier.sid);
-                    
+
 
 select pname
 from Parts,Catalog,Supplier
@@ -67,3 +64,14 @@ where p.pid=c.pid and s.sid=c.sid
 and c.cost=(select max(c1.cost)
 	    from Catalog c1
             where c1.pid=c.pid);
+            
+select sname 
+from Supplier
+where not exists( select pid from Parts where color='Red'
+		and pid not in(
+                    select distinct Catalog.pid 
+                    from Catalog , Parts
+                    where Parts.pid=Catalog.pid and Parts.color='Red' and  Catalog.sid=Supplier.sid));
+                    
+
+drop database SupplierDB;
