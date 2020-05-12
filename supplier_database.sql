@@ -74,4 +74,3 @@ where not exists( select pid from Parts where color='Red'
                     where Parts.pid=Catalog.pid and Parts.color='Red' and  Catalog.sid=Supplier.sid));
                     
 
-drop database SupplierDB;
