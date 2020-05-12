@@ -1,5 +1,4 @@
 
-DROP database BANKING_ENTERPRISE;
 
 create database BANKING_ENTERPRISE;
 use BANKING_ENTERPRISE;
@@ -74,12 +73,12 @@ where exists (
                 group by D.customername
                 having count(D.customername) >=2);
                 
-select BC.customername from Bank_Customer BC
-where not exists(
-					select branch_name from Branch branch_city = 'Delhi'
-                    NOT IN
-                    select BA.branch_name from Depositor D , Bank_account BA
-                    where D.acc_no = BA.acc_no AND BC.customername = D.customername);
+select BC.customer_name from BankCustomer BC where not exists(
+	select branch_name from Branch where branch_city = 'Delhi'
+	and branch_name not in(
+    select BA.branch_name from Depositer D, BankAccount BA
+	where D.accno = BA.accno and BC.customer_name = D.customer_name)
+);
                     
 delete from Bank_account 
 where branch_name in (select branch_name 
