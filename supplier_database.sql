@@ -33,7 +33,7 @@ where Parts.pid=Catalog.pid;
 select sname 
 from Supplier
 where not exists( select pid from Parts
-					except
+					NOT IN
                     select distinct pid 
                     from Catalog
                     where Catalog.sid=Supplier.sid);
@@ -41,7 +41,7 @@ where not exists( select pid from Parts
 select sname 
 from Supplier
 where not exists( select pid from Parts where color='Red'
-					except
+					NOT IN
                     select distinct Catalog.pid 
                     from Catalog , Parts
                     where Parts.pid=Catalog.pid and Parts.color='Red' and  Catalog.sid=Supplier.sid);
