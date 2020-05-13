@@ -62,7 +62,14 @@ insert into Loan values(
 1,"SBI_Chamrajpet",1000),(2,"SBI_ResidencyRoad",2000),(3,"SBI_ShivajiRoad",3000),(4,"SBI_ParliamentRoad",4000),(5,"SBI_Jantarmantar",5000);
 select * from Loan;
 
+create table borrower(
+customername varchar(30),
+loan_num int,
+foreign key(customername) references  Bank_Customer (customername),
+foreign key(loan_num) references Loan(loan_num));
 
+insert into borrower values('Avinash',1), ('Dinesh',2), ('Nikil',3), ('Avinash', 4), ('Dinesh', 5);
+				      
 select C.customername 
 from Bank_Customer C
 where exists (
